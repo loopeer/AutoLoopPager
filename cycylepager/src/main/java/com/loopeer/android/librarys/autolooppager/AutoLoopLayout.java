@@ -146,9 +146,24 @@ public class AutoLoopLayout<T> extends FrameLayout implements ViewPager.OnPageCh
         boolean isAddDataFromEmptyState = mImageAdapter.getCount() == 0;
         mImageAdapter.updateData(data);
         if (isAddDataFromEmptyState) {
-            mViewPager.setCurrentItem(TMP_AMOUNT);
+            mViewPager.setCurrentItem(mImageAdapter.getRealCount() == 1 ? 0 : TMP_AMOUNT);
+            if (mImageAdapter.getRealCount() == 1) {
+                doOneSimpleImageShow();
+            } else {
+                doNormalShow();
+            }
         }
         updateImageIndicator();
+    }
+
+    private void doNormalShow() {
+        mViewPager.setCurrentItem(TMP_AMOUNT);
+        startLoop();
+    }
+
+    private void doOneSimpleImageShow() {
+        mViewPager.setCurrentItem(0);
+        stopLoop();
     }
 
     private int getAdapterRealCount() {
@@ -213,6 +228,7 @@ public class AutoLoopLayout<T> extends FrameLayout implements ViewPager.OnPageCh
 
     private void updateImageIndicator() {
         if (mPageIndicator == null) return;
+        mPageIndicator.setVisibility(mImageAdapter.getRealCount() == 1 ? GONE : VISIBLE);
         mPageIndicator.updateCount(mImageAdapter.getRealCount());
         updateIndicatorPosition(getRealPosition(mViewPager.getCurrentItem()));
     }

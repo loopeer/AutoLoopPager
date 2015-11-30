@@ -46,7 +46,7 @@ public class ImageAdapter<T> extends PagerAdapter{
 
     @Override
     public int getCount() {
-        return mDatas == null ? 0 : mDatas.size() * AutoLoopLayout.TMP_AMOUNT;
+        return mDatas == null ? 0 : mDatas.size() == 1 ? 1 : mDatas.size() * AutoLoopLayout.TMP_AMOUNT;
     }
 
     @Override
