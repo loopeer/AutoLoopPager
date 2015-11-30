@@ -148,33 +148,6 @@ public class AutoLoopLayout<T> extends FrameLayout implements ViewPager.OnPageCh
         }
     }
 
-    public void setILoopAdapter(ILoopAdapter loopImager) {
-        mImageAdapter.setILoopAdapter(loopImager);
-    }
-
-    public void startLoop() {
-        startTimer();
-    }
-
-    @SuppressWarnings("unused")
-    public void stopLoop() {
-        stopTimer();
-    }
-
-    public void updateData(List<T> data) {
-        boolean isAddDataFromEmptyState = mImageAdapter.getCount() == 0;
-        mImageAdapter.updateData(data);
-        if (isAddDataFromEmptyState) {
-            mViewPager.setCurrentItem(mImageAdapter.getRealCount() == 1 ? 0 : TMP_AMOUNT);
-            if (mImageAdapter.getRealCount() == 1) {
-                doOneSimpleImageShow();
-            } else {
-                doNormalShow();
-            }
-        }
-        updateImageIndicator();
-    }
-
     private void doNormalShow() {
         mViewPager.setCurrentItem(TMP_AMOUNT);
         if (mCanAutoLoop) startLoop();
@@ -251,6 +224,33 @@ public class AutoLoopLayout<T> extends FrameLayout implements ViewPager.OnPageCh
         mPageIndicator.setVisibility(mImageAdapter.getRealCount() == 1 ? GONE : VISIBLE);
         mPageIndicator.updateCount(mImageAdapter.getRealCount());
         updateIndicatorPosition(getRealPosition(mViewPager.getCurrentItem()));
+    }
+
+    public void setILoopAdapter(ILoopAdapter loopImager) {
+        mImageAdapter.setILoopAdapter(loopImager);
+    }
+
+    public void startLoop() {
+        startTimer();
+    }
+
+    @SuppressWarnings("unused")
+    public void stopLoop() {
+        stopTimer();
+    }
+
+    public void updateData(List<T> data) {
+        boolean isAddDataFromEmptyState = mImageAdapter.getCount() == 0;
+        mImageAdapter.updateData(data);
+        if (isAddDataFromEmptyState) {
+            mViewPager.setCurrentItem(mImageAdapter.getRealCount() == 1 ? 0 : TMP_AMOUNT);
+            if (mImageAdapter.getRealCount() == 1) {
+                doOneSimpleImageShow();
+            } else {
+                doNormalShow();
+            }
+        }
+        updateImageIndicator();
     }
 
 }
