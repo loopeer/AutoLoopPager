@@ -3,6 +3,7 @@ package com.loopeer.android.librarys.cyclepager.cyclepager;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +11,11 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import com.loopeer.android.librarys.autolooppager.AutoLoopLayout;
 import com.loopeer.android.librarys.autolooppager.ILoopAdapter;
+import com.loopeer.android.librarys.autolooppager.LoopPageChangeListener;
 import com.loopeer.android.librarys.autolooppager.PageIndicator;
-
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoopPageChangeListener {
 
     private AutoLoopLayout<Integer> mAutoLoopLayout;
     private PageIndicator mPageIndicator;
@@ -31,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mAutoLoopLayout = (AutoLoopLayout<Integer>) findViewById(R.id.pager_main);
-        //mPageIndicator = (PageIndicator) findViewById(R.id.indicator_main_pager);
         mAutoLoopLayout.setILoopImage(new ILoopAdapter<Integer>() {
             @Override
             public View createView(ViewGroup viewGroup) {
@@ -52,10 +52,27 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+        mAutoLoopLayout.setLoopPageChangeListener(this);
         mAutoLoopLayout.updateData(Arrays.asList(COLOR));
-        //mAutoLoopLayout.setPageIndicator(mPageIndicator);
         mAutoLoopLayout.startLoop();
+
+        //mPageIndicator = (PageIndicator) findViewById(R.id.indicator_main_pager);
+        //mAutoLoopLayout.setPageIndicator(mPageIndicator);
     }
 
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        Log.e("11111", "---" + position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
 }

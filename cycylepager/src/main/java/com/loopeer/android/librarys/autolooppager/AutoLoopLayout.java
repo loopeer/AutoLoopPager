@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import java.util.List;
 import java.util.Timer;
@@ -57,12 +56,12 @@ public class AutoLoopLayout<T> extends FrameLayout implements ViewPager.OnPageCh
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         LayoutInflater.from(getContext()).inflate(R.layout.view_auto_loop_layout, this, true);
         mImageAdapter = new ImageAdapter();
-        createIndicator();
+        createDefaultIndicator();
     }
 
-    private void createIndicator() {
+    private void createDefaultIndicator() {
         mPageIndicator = new PageIndicator(getContext());
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.gravity = Gravity.BOTTOM | Gravity.RIGHT;

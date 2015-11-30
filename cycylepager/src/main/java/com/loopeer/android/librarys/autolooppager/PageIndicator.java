@@ -16,6 +16,7 @@ public class PageIndicator extends LinearLayout {
     private Drawable mUnSelectDrawable;
     private Drawable mSelectDrawable;
     private int mPreSelectPosition;
+    private int mItemMargin;
 
     public PageIndicator(Context context) {
         this(context, null);
@@ -33,7 +34,7 @@ public class PageIndicator extends LinearLayout {
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         setOrientation(HORIZONTAL);
-        setGravity(Gravity.CENTER);
+        setGravity(Gravity.BOTTOM | Gravity.RIGHT);
 
         mUnSelectDrawable = mUnSelectDrawable == null ? createUnSelectDefaultDrawable() : null;
         mSelectDrawable = mSelectDrawable == null ? createSelectDefaultDrawable() : null;
