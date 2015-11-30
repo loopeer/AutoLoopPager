@@ -16,14 +16,14 @@ public class ImageAdapter<T> extends PagerAdapter{
         mDatas = new ArrayList<>();
     }
 
-    public void updateDatas(List<T> datas) {
-        setDatas(datas);
+    public void updateData(List<T> data) {
+        setData(data);
         notifyDataSetChanged();
     }
 
-    private void setDatas(List<T> datas) {
+    private void setData(List<T> data) {
         mDatas.clear();
-        mDatas.addAll(datas);
+        mDatas.addAll(data);
     }
 
     @Override
@@ -46,11 +46,15 @@ public class ImageAdapter<T> extends PagerAdapter{
 
     @Override
     public int getCount() {
-        return mDatas == null ? 0 : mDatas.size() * 1200;
+        return mDatas == null ? 0 : mDatas.size() * AutoLoopLayout.TMP_AMOUNT;
     }
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
         return view == object;
+    }
+
+    public int getRealCount() {
+        return mDatas.size();
     }
 }
