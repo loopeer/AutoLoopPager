@@ -202,7 +202,7 @@ public class AutoLoopLayout<T> extends FrameLayout implements ViewPager.OnPageCh
     }
 
     private int getRealPosition(int position) {
-        return position % getAdapterRealCount();
+        return position == 0 ? 0 : position % getAdapterRealCount();
     }
 
     public void setLoopPageChangeListener(LoopPageChangeListener listener) {
