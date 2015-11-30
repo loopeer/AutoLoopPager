@@ -11,10 +11,10 @@ import java.util.List;
 public class ImageAdapter<T> extends PagerAdapter{
 
     private ILoopAdapter<T> mILoopAdapter;
-    private List<T> mDatas;
+    private List<T> mData;
 
     public ImageAdapter() {
-        mDatas = new ArrayList<>();
+        mData = new ArrayList<>();
     }
 
     public void updateData(List<T> data) {
@@ -23,8 +23,8 @@ public class ImageAdapter<T> extends PagerAdapter{
     }
 
     private void setData(List<T> data) {
-        mDatas.clear();
-        mDatas.addAll(data);
+        mData.clear();
+        mData.addAll(data);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class ImageAdapter<T> extends PagerAdapter{
         position = position % getRealCount();
         LayoutInflater inflater = LayoutInflater.from(collection.getContext());
         View view = mILoopAdapter.createView(collection, inflater, collection.getContext());
-        mILoopAdapter.bindItem(view, position, mDatas.get(position));
+        mILoopAdapter.bindItem(view, position, mData.get(position));
         collection.addView(view);
         return view;
     }
@@ -48,7 +48,7 @@ public class ImageAdapter<T> extends PagerAdapter{
 
     @Override
     public int getCount() {
-        return mDatas == null ? 0 : mDatas.size() == 1 ? 1 : mDatas.size() * AutoLoopLayout.TMP_AMOUNT;
+        return mData == null ? 0 : mData.size() == 1 ? 1 : mData.size() * AutoLoopLayout.TMP_AMOUNT;
     }
 
     @Override
@@ -57,6 +57,6 @@ public class ImageAdapter<T> extends PagerAdapter{
     }
 
     public int getRealCount() {
-        return mDatas.size();
+        return mData.size();
     }
 }

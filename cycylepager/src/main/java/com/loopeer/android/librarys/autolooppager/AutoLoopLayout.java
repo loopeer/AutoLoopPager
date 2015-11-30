@@ -3,6 +3,7 @@ package com.loopeer.android.librarys.autolooppager;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -96,7 +98,15 @@ public class AutoLoopLayout<T> extends FrameLayout implements ViewPager.OnPageCh
 
         mViewPager = (ViewPager) this.findViewById(R.id.pager_auto_loop_layout);
         mViewPager.setAdapter(mImageAdapter);
-        mViewPager.addOnPageChangeListener(this);
+        setUpPageListener();
+    }
+
+    private void setUpPageListener() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            mViewPager.setOnPageChangeListener(this);
+        } else {
+            mViewPager.addOnPageChangeListener(this);
+        }
     }
 
     @Override
