@@ -29,7 +29,7 @@ public class ImageAdapter<T> extends PagerAdapter{
 
     @Override
     public Object instantiateItem(ViewGroup collection, int position) {
-        position = position % 3;
+        position = position % getRealCount();
         LayoutInflater inflater = LayoutInflater.from(collection.getContext());
         View view = mILoopAdapter.createView(collection, inflater, collection.getContext());
         mILoopAdapter.bindItem(view, position, mDatas.get(position));
