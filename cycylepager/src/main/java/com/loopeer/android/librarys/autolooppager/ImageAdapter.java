@@ -1,6 +1,7 @@
 package com.loopeer.android.librarys.autolooppager;
 
 import android.support.v4.view.PagerAdapter;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -29,7 +30,8 @@ public class ImageAdapter<T> extends PagerAdapter{
     @Override
     public Object instantiateItem(ViewGroup collection, int position) {
         position = position % 3;
-        View view = mILoopAdapter.createView(collection);
+        LayoutInflater inflater = LayoutInflater.from(collection.getContext());
+        View view = mILoopAdapter.createView(collection, inflater, collection.getContext());
         mILoopAdapter.bindItem(view, position, mDatas.get(position));
         collection.addView(view);
         return view;

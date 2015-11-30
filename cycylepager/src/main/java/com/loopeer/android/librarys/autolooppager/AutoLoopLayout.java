@@ -148,7 +148,7 @@ public class AutoLoopLayout<T> extends FrameLayout implements ViewPager.OnPageCh
         }
     }
 
-    public void setILoopImage(ILoopAdapter loopImager) {
+    public void setILoopAdapter(ILoopAdapter loopImager) {
         mImageAdapter.setILoopAdapter(loopImager);
     }
 

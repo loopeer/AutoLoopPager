@@ -1,24 +1,23 @@
 package com.loopeer.android.librarys.cyclepager.cyclepager;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
 import com.loopeer.android.librarys.autolooppager.AutoLoopLayout;
 import com.loopeer.android.librarys.autolooppager.ILoopAdapter;
-import com.loopeer.android.librarys.autolooppager.LoopPageChangeListener;
-import com.loopeer.android.librarys.autolooppager.PageIndicator;
+
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity implements LoopPageChangeListener {
+public class MainActivity extends AppCompatActivity {
 
     private AutoLoopLayout<Integer> mAutoLoopLayout;
-    private PageIndicator mPageIndicator;
 
     private final Integer[] COLOR = new Integer[]{
             Integer.valueOf(android.R.color.holo_blue_light),
@@ -32,10 +31,9 @@ public class MainActivity extends AppCompatActivity implements LoopPageChangeLis
         setContentView(R.layout.activity_main);
 
         mAutoLoopLayout = (AutoLoopLayout<Integer>) findViewById(R.id.pager_main);
-        mAutoLoopLayout.setILoopImage(new ILoopAdapter<Integer>() {
+        mAutoLoopLayout.setILoopAdapter(new ILoopAdapter<Integer>() {
             @Override
-            public View createView(ViewGroup viewGroup) {
-                LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+            public View createView(ViewGroup viewGroup, LayoutInflater inflater, Context context) {
                 FrameLayout layout = (FrameLayout) inflater.inflate(R.layout.view_pager_item, viewGroup, false);
                 return layout;
             }
@@ -52,27 +50,7 @@ public class MainActivity extends AppCompatActivity implements LoopPageChangeLis
                 });
             }
         });
-        mAutoLoopLayout.setLoopPageChangeListener(this);
         mAutoLoopLayout.updateData(Arrays.asList(COLOR));
-        mAutoLoopLayout.startLoop();
-
-        //mPageIndicator = (PageIndicator) findViewById(R.id.indicator_main_pager);
-        //mAutoLoopLayout.setPageIndicator(mPageIndicator);
     }
 
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        Log.e("11111", "---" + position);
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
 }
