@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,6 +33,7 @@ public class PageIndicator extends LinearLayout {
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         setOrientation(HORIZONTAL);
+        setGravity(Gravity.CENTER);
 
         mUnSelectDrawable = mUnSelectDrawable == null ? createUnSelectDefaultDrawable() : null;
         mSelectDrawable = mSelectDrawable == null ? createSelectDefaultDrawable() : null;

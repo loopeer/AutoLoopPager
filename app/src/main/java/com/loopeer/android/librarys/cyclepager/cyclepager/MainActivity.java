@@ -8,16 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
 import com.loopeer.android.librarys.autolooppager.AutoLoopLayout;
 import com.loopeer.android.librarys.autolooppager.ILoopAdapter;
+import com.loopeer.android.librarys.autolooppager.PageIndicator;
 
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
     private AutoLoopLayout<Integer> mAutoLoopLayout;
-
+    private PageIndicator mPageIndicator;
 
     private final Integer[] COLOR = new Integer[]{
             Integer.valueOf(android.R.color.holo_blue_light),
@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mAutoLoopLayout = (AutoLoopLayout<Integer>) findViewById(R.id.pager_main);
+        //mPageIndicator = (PageIndicator) findViewById(R.id.indicator_main_pager);
         mAutoLoopLayout.setILoopImage(new ILoopAdapter<Integer>() {
             @Override
             public View createView(ViewGroup viewGroup) {
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mAutoLoopLayout.updateData(Arrays.asList(COLOR));
+        //mAutoLoopLayout.setPageIndicator(mPageIndicator);
         mAutoLoopLayout.startLoop();
     }
 

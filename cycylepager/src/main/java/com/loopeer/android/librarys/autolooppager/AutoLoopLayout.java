@@ -63,8 +63,8 @@ public class AutoLoopLayout<T> extends FrameLayout implements ViewPager.OnPageCh
     private void createIndicator() {
         mPageIndicator = new PageIndicator(getContext());
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.gravity = Gravity.BOTTOM | Gravity.RIGHT;
         layoutParams.rightMargin = 16;
         layoutParams.bottomMargin = 16;
@@ -203,6 +203,10 @@ public class AutoLoopLayout<T> extends FrameLayout implements ViewPager.OnPageCh
     }
 
     public void setPageIndicator(PageIndicator pageIndicator) {
+        if (mPageIndicator != null) {
+            ((ViewGroup)mPageIndicator.getParent()).removeView(mPageIndicator);
+            mPageIndicator = null;
+        }
         mPageIndicator = pageIndicator;
         updateImageIndicator();
     }
