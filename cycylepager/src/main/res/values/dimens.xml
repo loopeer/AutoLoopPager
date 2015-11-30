@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="cyclepager_list_horizontal_margin">12dp</dimen>
+    <dimen name="cyclepager_list_vertical_margin">12dp</dimen>
+    <dimen name="cyclepager_inline_margin">4dp</dimen>
+
+</resources>

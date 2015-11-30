@@ -1,6 +1,8 @@
 package com.loopeer.android.librarys.autolooppager;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
@@ -11,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -28,6 +29,9 @@ public class AutoLoopLayout<T> extends FrameLayout implements ViewPager.OnPageCh
     private ImageAdapter<T> mImageAdapter;
     private Timer mTimer;
     private TimerTask mTask;
+    private boolean mCanAutoLoop;
+    private boolean mShowIndicator;
+    private int mLoopPeriod;
 
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
@@ -54,19 +58,35 @@ public class AutoLoopLayout<T> extends FrameLayout implements ViewPager.OnPageCh
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
+        if (attrs == null) return;
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AutoLoopLayout, defStyleAttr, 0);
+        if (a == null) return;
+
+        mCanAutoLoop = a.getBoolean(R.styleable.AutoLoopLayout_autoLoop, true);
+        mShowIndicator = a.getBoolean(R.styleable.AutoLoopLayout_showIndicator, true);
+        mLoopPeriod = a.getInteger(R.styleable.AutoLoopLayout_loopPeriod, DEFAULT_PERIOD);
+        int indicatorMargin = a.getDimensionPixelSize(R.styleable.AutoLoopLayout_indicatorMargin,
+                getResources().getDimensionPixelSize(R.dimen.cyclepager_inline_margin));
+        Drawable selectDrawable = a.getDrawable(R.styleable.AutoLoopLayout_selectDrawable);
+        Drawable unSelectDrawable = a.getDrawable(R.styleable.AutoLoopLayout_unSelectDrawable);
+        a.recycle();
+
         LayoutInflater.from(getContext()).inflate(R.layout.view_auto_loop_layout, this, true);
         mImageAdapter = new ImageAdapter();
-        createDefaultIndicator();
+        if (mShowIndicator) createDefaultIndicator(unSelectDrawable, selectDrawable, indicatorMargin);
     }
 
-    private void createDefaultIndicator() {
+    private void createDefaultIndicator(Drawable unSelectDrawable, Drawable selectDrawable, int indicatorMargin) {
         mPageIndicator = new PageIndicator(getContext());
+        mPageIndicator.setIndicatorMargin(indicatorMargin);
+        mPageIndicator.updateDrawable(unSelectDrawable, selectDrawable);
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.gravity = Gravity.BOTTOM | Gravity.RIGHT;
-        layoutParams.rightMargin = 16;
-        layoutParams.bottomMargin = 16;
+        int margin = getResources().getDimensionPixelSize(R.dimen.cyclepager_list_horizontal_margin);
+        layoutParams.rightMargin = margin;
+        layoutParams.bottomMargin = margin;
         addView(mPageIndicator, layoutParams);
     }
 
@@ -113,7 +133,7 @@ public class AutoLoopLayout<T> extends FrameLayout implements ViewPager.OnPageCh
                     mHandler.sendMessage(message);
                 }
             };
-            mTimer.schedule(mTask, DEFAULT_START_DELAY, DEFAULT_PERIOD);
+            mTimer.schedule(mTask, DEFAULT_START_DELAY, mLoopPeriod);
         }
     }
 
@@ -157,7 +177,7 @@ public class AutoLoopLayout<T> extends FrameLayout implements ViewPager.OnPageCh
 
     private void doNormalShow() {
         mViewPager.setCurrentItem(TMP_AMOUNT);
-        startLoop();
+        if (mCanAutoLoop) startLoop();
     }
 
     private void doOneSimpleImageShow() {
@@ -217,6 +237,7 @@ public class AutoLoopLayout<T> extends FrameLayout implements ViewPager.OnPageCh
     }
 
     public void setPageIndicator(PageIndicator pageIndicator) {
+        mShowIndicator = true;
         if (mPageIndicator != null) {
             ((ViewGroup)mPageIndicator.getParent()).removeView(mPageIndicator);
             mPageIndicator = null;

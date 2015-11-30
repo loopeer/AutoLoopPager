@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="AutoLoopLayout">
+        <attr name="autoLoop" format="boolean"/>
+        <attr name="showIndicator" format="boolean"/>
+        <attr name="selectDrawable" format="reference"/>
+        <attr name="unSelectDrawable" format="reference"/>
+        <attr name="loopPeriod" format="integer"/>
+        <attr name="indicatorMargin" format="dimension"/>
+    </declare-styleable>
+
+</resources>

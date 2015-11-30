@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 public class PageIndicator extends LinearLayout {
-    private final static int DEFAUlT_MARGIN = 8;
 
     private int mCount;
     private Drawable mUnSelectDrawable;
@@ -50,8 +49,13 @@ public class PageIndicator extends LinearLayout {
 
     private Drawable createDefaultDrawable(boolean isSelected) {
         return ContextCompat.getDrawable(getContext(), isSelected
-                ? R.drawable.shape_selected
-                : R.drawable.shape_unselected);
+                ? R.drawable.cycle_pager_shape_selected
+                : R.drawable.cycle_pager_shape_unselected);
+    }
+
+    public void updateDrawable(Drawable unSelectDrawable, Drawable selectDrawable) {
+        if (unSelectDrawable != null) mUnSelectDrawable = unSelectDrawable;
+        if (selectDrawable != null) mSelectDrawable = selectDrawable;
     }
 
     public void updateCount(int realCount) {
@@ -67,14 +71,14 @@ public class PageIndicator extends LinearLayout {
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.rightMargin = DEFAUlT_MARGIN;
+            layoutParams.rightMargin = mItemMargin;
             if (i == mCount - 1) layoutParams.rightMargin = 0;
             addView(imageView, layoutParams);
         }
         updatePosition(mPreSelectPosition);
     }
 
-    public void updatePosition(int realPosition) {
+    protected void updatePosition(int realPosition) {
         if (getChildAt(mPreSelectPosition) == null) return;
         ImageView imageView = (ImageView) getChildAt(mPreSelectPosition);
         imageView.setImageDrawable(mUnSelectDrawable);
@@ -82,5 +86,10 @@ public class PageIndicator extends LinearLayout {
         ImageView imageViewSelect = (ImageView) getChildAt(realPosition);
         imageViewSelect.setImageDrawable(mSelectDrawable);
         mPreSelectPosition = realPosition;
+    }
+
+    public void setIndicatorMargin(int indicatorMargin) {
+        mItemMargin = indicatorMargin;
+        resetView();
     }
 }
