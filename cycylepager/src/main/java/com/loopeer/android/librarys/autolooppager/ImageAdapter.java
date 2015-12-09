@@ -24,7 +24,9 @@ public class ImageAdapter<T> extends PagerAdapter{
 
     private void setData(List<T> data) {
         mData.clear();
-        mData.addAll(data);
+        if (data != null) {
+            mData.addAll(data);
+        }
     }
 
     @Override
