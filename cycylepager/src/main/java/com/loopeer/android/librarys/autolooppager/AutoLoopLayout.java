@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -23,7 +21,6 @@ public class AutoLoopLayout<T> extends FrameLayout implements ViewPager.OnPageCh
     protected final static int TMP_AMOUNT = 1200;
     private final static int DEFAULT_PERIOD = 5000;
     private final static int DEFAULT_START_DELAY = 2000;
-    private final static int MESSAGE_ON_PAGE_CHANGE = 1;
 
     private ViewPager mViewPager;
     private PageIndicator mPageIndicator;
@@ -34,16 +31,6 @@ public class AutoLoopLayout<T> extends FrameLayout implements ViewPager.OnPageCh
     private boolean mCanAutoLoop;
     private boolean mShowIndicator;
     private int mLoopPeriod;
-
-    private Handler mHandler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            if (msg.what == MESSAGE_ON_PAGE_CHANGE) {
-                mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
-            }
-            return false;
-        }
-    });
 
     public AutoLoopLayout(Context context) {
         this(context, null);
@@ -138,9 +125,12 @@ public class AutoLoopLayout<T> extends FrameLayout implements ViewPager.OnPageCh
         if (mTask == null) {
             mTask = new TimerTask() {
                 public void run() {
-                    Message message = new Message();
-                    message.what = MESSAGE_ON_PAGE_CHANGE;
-                    mHandler.sendMessage(message);
+                    mViewPager.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
+                        }
+                    });
                 }
             };
             mTimer.schedule(mTask, DEFAULT_START_DELAY, mLoopPeriod);
