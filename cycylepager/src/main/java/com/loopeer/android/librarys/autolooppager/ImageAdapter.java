@@ -12,6 +12,7 @@ public class ImageAdapter<T> extends PagerAdapter{
 
     private ILoopAdapter<T> mILoopAdapter;
     private List<T> mData;
+    private List<View> mHolderViews = new ArrayList<>();
 
     public ImageAdapter() {
         mData = new ArrayList<>();
@@ -33,11 +34,24 @@ public class ImageAdapter<T> extends PagerAdapter{
     public Object instantiateItem(ViewGroup collection, int position) {
         position = position % getRealCount();
         LayoutInflater inflater = LayoutInflater.from(collection.getContext());
-        View view = mILoopAdapter.createView(collection, inflater, collection.getContext());
+        View view = getView(collection, inflater, position);
         mILoopAdapter.bindItem(view, position, mData.get(position));
         collection.addView(view);
         return view;
     }
+
+    private View getView(ViewGroup collection, LayoutInflater inflater, int position) {
+        View view;
+        if (mHolderViews.size() < 4) {
+            view = mILoopAdapter.createView(collection, inflater, collection.getContext());
+            mHolderViews.add(view);
+        } else {
+            view = mHolderViews.get(position % 4);
+            collection.removeView(view);
+        }
+        return view;
+    }
+
 
     public void setILoopAdapter(ILoopAdapter loopAdapter) {
         mILoopAdapter = loopAdapter;
