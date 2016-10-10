@@ -42,12 +42,12 @@ public class ImageAdapter<T> extends PagerAdapter{
 
     private View getView(ViewGroup collection, LayoutInflater inflater, int position) {
         View view;
-        if (mHolderViews.size() < 4) {
+        if (mHolderViews.size() == 0) {
             view = mILoopAdapter.createView(collection, inflater, collection.getContext());
-            mHolderViews.add(view);
+            view.setTag("position" + position);
         } else {
-            view = mHolderViews.get(position % 4);
-            collection.removeView(view);
+            view = mHolderViews.get(0);
+            mHolderViews.remove(0);
         }
         return view;
     }
@@ -59,7 +59,9 @@ public class ImageAdapter<T> extends PagerAdapter{
 
     @Override
     public void destroyItem(ViewGroup collection, int position, Object view) {
-        collection.removeView((View) view);
+        View v = (View) view;
+        mHolderViews.add(v);
+        collection.removeView(v);
     }
 
     @Override
