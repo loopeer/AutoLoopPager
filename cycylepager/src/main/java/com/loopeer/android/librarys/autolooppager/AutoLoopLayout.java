@@ -107,10 +107,13 @@ public class AutoLoopLayout<T> extends FrameLayout implements ViewPager.OnPageCh
     public boolean dispatchTouchEvent(MotionEvent ev) {
         int action = ev.getAction();
         switch (action) {
-            case KeyEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_DOWN:
                 stopTimer();
                 break;
-            case KeyEvent.ACTION_UP:
+            case MotionEvent.ACTION_UP:
+                startTimer();
+                break;
+            case MotionEvent.ACTION_CANCEL:
                 startTimer();
                 break;
         }
